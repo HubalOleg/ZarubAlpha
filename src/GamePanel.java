@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements
     Runnable {
@@ -33,7 +34,8 @@ public class GamePanel extends JPanel implements
     private int FPS = 30;
     private double averageFPS;
 
-    private Player player;
+    public static Player player;
+    public static ArrayList<Bullet> bullets;
 
 
 //    Constructor
@@ -59,6 +61,7 @@ public class GamePanel extends JPanel implements
 
 //        long totalTime = 0;
         player = new Player();
+        bullets = new ArrayList<Bullet>();
 
         int frameCount = 0;
         int maxFrameCount = 30;
@@ -137,6 +140,24 @@ public class GamePanel extends JPanel implements
         player.setAngle(angle);
 
         player.update();
+//  check bullets position
+        player.setFiring(controller.getFiring());
+        for(int i = 0; i < bullets.size(); i++) {
+            boolean remove = bullets.get(i).update();
+            if (remove) {
+                bullets.remove(i);
+                i--;
+            }
+        }
+
+        for(int i = 0; i < bullets.size(); i++) {
+
+            Bullet b = bullets.get(i);
+            double bx = b.getX();
+            double by = b.getY();
+            double br = b.getR();
+
+        }
 
     }
 
@@ -146,6 +167,11 @@ public class GamePanel extends JPanel implements
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         player.draw(g);
+//          draw bullets
+        for(int i = 0; i < bullets.size(); i++) {
+            bullets.get(i).draw(g);
+        }
+
 
     }
 

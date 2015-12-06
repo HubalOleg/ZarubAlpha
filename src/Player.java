@@ -15,7 +15,6 @@ public class Player {
     private double relativeDx;
     private double relativeDy;
 
-    private int rotate;
     private double angle;
 
     private int x;
@@ -24,6 +23,10 @@ public class Player {
     private int dx;
     private int dy;
     private int speed;
+
+    private boolean firing;
+    private long firingTimer;
+    private long firingDelay;
 
     private int restRadius;
 
@@ -40,6 +43,10 @@ public class Player {
         dx = 0;
         dy = 0;
         speed = 7;
+
+        firing = false;
+        firingTimer = System.nanoTime();
+        firingDelay = 200;
 
         restRadius = 10;
 
@@ -61,6 +68,14 @@ public class Player {
         x += dx;
         y += dy;
 
+        if(firing) {
+            long elapsed = (System.nanoTime() - firingTimer) / 1000000;
+            if(elapsed > firingDelay) {
+                GamePanel.bullets.add(new Bullet(Math.toDegrees(angle) - 90, x + imageWidth / 2, y + imageHeight / 2));
+                firingTimer = System.nanoTime();
+            }
+        }
+
     }
 
     public void draw(Graphics2D g) {
@@ -74,15 +89,14 @@ public class Player {
     public int getX() { return x; }
     public int getY() { return y; }
     public int getSpeed() { return speed; }
+    public int getImageWidth() { return imageWidth; }
+    public int getImageHeight() { return imageHeight; }
+    public int getRestRadius() { return restRadius; }
 
     public void setRelativeDx(double relativeDx) { this.relativeDx = relativeDx; }
     public void setRelativeDy(double relativeDy) { this.relativeDy = relativeDy; }
-
-    public int getImageWidth() { return imageWidth; }
-    public int getImageHeight() { return imageHeight; }
-
-    public int getRestRadius() { return restRadius; }
-
     public void setAngle(double angle) { this.angle = angle; }
+    public void setFiring(boolean b) { firing = b; }
+
 
 }

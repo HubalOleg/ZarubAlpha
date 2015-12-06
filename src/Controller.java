@@ -11,23 +11,27 @@ public class Controller implements MouseMotionListener, MouseListener {
 
     private static int x;
     private static int y;
+    private static boolean firing;
 
     public int getX() { return x; }
     public int getY() { return y; }
+    public boolean getFiring() {
+        return firing;
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        
+        firing = true;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        firing = true;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        firing = false;
     }
 
     @Override
@@ -42,7 +46,8 @@ public class Controller implements MouseMotionListener, MouseListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-
+        x = e.getX();
+        y = e.getY();
     }
 
     @Override
